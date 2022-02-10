@@ -1,0 +1,42 @@
+# Used for publication-quality figures
+
+# FONT
+font.size : 18
+font.family : Helvetica
+
+# TICKS
+xtick.direction : in
+ytick.direction : in
+xtick.major.width : 2
+ytick.major.width : 0
+xtick.major.size : 5
+ytick.major.size : 0
+xtick.top : True
+ytick.right : False
+ytick.left : False
+
+# PLOTS
+scatter.marker : s
+lines.linewidth : 2
+lines.markersize : 8
+lines.markeredgewidth : 2
+legend.edgecolor : k
+legend.fancybox : False
+errorbar.capsize : 4
+
+# AXES
+axes.facecolor : w
+axes.linewidth : 2
+
+# LEGEND
+legend.fontsize : 16
+legend.borderpad : 0.25
+legend.labelspacing : 0.25
+legend.frameon : False
+
+# FIGURE OUTPUT
+figure.facecolor : w
+savefig.dpi : 300
+savefig.bbox : tight
+savefig.format : tiff
+savefig.facecolor : w
