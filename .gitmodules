@@ -1,0 +1,3 @@
+[submodule "crisporWebsite"]
+	path = crisporWebsite
+	url = ../crisporWebsite
