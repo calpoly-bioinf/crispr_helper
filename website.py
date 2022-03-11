@@ -9,7 +9,31 @@ from dash.dependencies import Input, Output, State
 app = dash.Dash(__name__)
 server = app.server
 
-app.layout = html.Div([
+app.layout = html.Div(children = [
+    # Navbar
+    html.Div(children = [
+        html.H1(children='CrisprHelper', style={'flex-grow': '4', 'margin-line-start': '20px'}),
+
+        html.Nav(className = "nav nav-pills", children=[
+            html.A('Home', className="nav-item nav-link btn", href='/apps/Home'),
+            html.A('Contact', className="nav-item nav-link active btn", href='/apps/Contact'),
+            html.A('About', className="nav-item nav-link active btn", href='/apps/About')  
+        ], style={'display': 'flex', 'flex-direction': 'row', 'justify-content': 'flex-end', 'gap': '30px', 'margin-inline-end':'20px'})
+    ], style={'display': 'flex', 'align-items': 'center'}),
+
+    # Divider Line
+    html.Hr(),
+
+    html.Div(children = [
+        # Description
+        html.P(children='Insert a cool description of the tool here'),
+
+        # TODO: Add inputs/dropdowns here!
+
+        # Submit Button
+        html.Button('Submit', id='submit-val', n_clicks=0)
+    ], style={'display': 'flex', 'flex-flow': 'column', 'justify-content': 'center', 'align-items': 'center'}),
+    html.Div(children = [
     dcc.Upload(
         id='upload-data',
         children=html.Div([
@@ -31,6 +55,8 @@ app.layout = html.Div([
     ),
     html.Div(id='output-data-upload'),
 ])
+]
+)
 
 def parse_contents(contents, filename, date):
     content_type, content_string = contents.split(',')
@@ -115,6 +141,14 @@ def update_output(list_of_contents, list_of_names, list_of_dates):
             parse_contents(c, n, d) for c, n, d in
             zip(list_of_contents, list_of_names, list_of_dates)]
         return children
+
+
+@app.callback(
+    Output("out-all-types", "children"),
+    [Input("input_sequence", "value")],
+)
+def cb_render(*vals):
+    return " | ".join((str(val) for val in vals if val))
 
 
 if __name__ == "__main__":
