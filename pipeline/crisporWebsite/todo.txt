@@ -1,0 +1,215 @@
+Crispor Edit:
+- (C>A)
+- (CCA>TGA)
+- (CCA>del)
+- (ins>CCA)
+
+
+Indel predictions:
+- Kim 2020: https://www.nature.com/articles/s41551-019-0505-1#code-availability https://github.com/CRISPRJWCHOI/IndelSearcher
+- Wang 2019 https://www.nature.com/articles/s41467-019-12281-8 www.deephf.com
+
+- Chakrabarti et al Mol Cell 2018 https://www.sciencedirect.com/science/article/pii/S1097276518310013?via%3Dihub
+- Wei of Jay Shendure's group 
+Add more deletion predictors:
+- https://www.nature.com/articles/nbt.4317
+- https://partslab.sanger.ac.uk/FORECasT
+
+Make the new TATV Cpf1 PAM work, cite 10.1038/nbt.3900 when done.
+- Ajouter explications pourquoi saCas9. -> manuel -> warning
+- Ajouter warning pour Cpf1, ajouter TTTV
+
+JP:
+IL ya aussi un outil tout bête à faire : quand on veut faire un KI, il faut faire une coupure le plus près possible du site d'insertion.
+Donc ça serait utile d'aider à voir tout ce qui est possible comme coupures.
+Ce qu'on fait aujourdh'ui, c'est d'utiliser S pyogenes/NGG et si ça ne va pas on cherche une autre protéine Cas avec un PAM mieu placé.
+POur éviter d'avoir à tester chaque PAM dans la liste, on pourrait afficher (pour les toutes petites séquences input) tout les PAM possibles ! Par exemple ça serait surement suffisant de se limiter à moins de 70 pb. Qu'est ce que tu en penses ?
+
+firefox: make sure that people can select text + indicate scroling is possible
+
+baseeditor window has to be user-configurable, textbox, "x-y"
+- baseeditor mode does not need to show PAMs
+- BE mode: restriction enzymes are different
+
+color off-targets by whether they are in a COSMIC gene or not.
+
+Color all scores and add Jensen et al :
+- talbot.39@osu.edu
+- p.s. red/yellow/green indicators would also help for predicted effeciency / out of frame scores.
+- > One thing that I look for, which is not shown here is a test for self-complimentarity.
+- I've often hear this and probably should add it. Is this the mfold score as published in Jenssen et al? Do you want to see the RNAfold diagram, too?
+- Mfold score would be fine; if you could code it red/yellow/green to indicate good/bad scores that would help too.
+- cfp1 support
+- show all guides for all PAMs together
+- suppress all eff scores but Fusi and Moreno
+- knock-in support
+
+Add these new criteria:
+- Thyme/Schier: http://chopchop.cbu.uib.no/scoring.php, add a column?
+  see https://www.ncbi.nlm.nih.gov/pubmed/27282953
+- Jensen et al: Chromatin and secondary structure 
+   http://onlinelibrary.wiley.com/doi/10.1002/1873-3468.12707/full
+- Jennifer's zebrafish model
+- CRISPROff and CRISPRSpec? http://rth.dk/resources/crispr/
+
+Show a histogram of the mismatches instead of 0-0-10-15-40
+
+What is site-seq and circle-seq?
+- add note to crispor batch and sat mut assistant about meaning of barcode?
+
+analyzers:
+crispresso
+https://bioconductor.org/packages/release/bioc/html/CrispRVariants.html
+http://www.rgenome.net/cas-analyzer/#!
+http://www.nature.com/articles/srep30330
+https://www.ncbi.nlm.nih.gov/pubmed/28333914 file S3
+Cas-Analyzer http://bioinformatics.oxfordjournals.org/content/early/2016/09/15/bioinformatics.btw561.abstract
+https://github.com/TuanjieNew/Indel-Finder
+https://github.com/mlafave/ampliconDIVider
+
+screen analyzers:
+https://github.com/boutroslab/CRISPRAnalyzeR
+
+screens CrisprI/A
+https://github.com/mhorlbeck/CRISPRiaDesign
+
+databases of tested guides:
+- addgene https://www.addgene.org/crispr/reference/grna-sequence/
+----
+
+off-target searchers:
+- https://github.com/htgt/CRISPR-Analyser
+- breaking Cas
+- https://github.com/MicrosoftResearch/Azimuth
+- align against ALL human genomes: https://github.com/emptyewer/MAPster
+- Church lab (CRISPR-GA): http://54.80.152.219/index.php
+
+- on-target scores:
+  - https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-017-1697-6
+    Says that dinucleotides improve the AUC, code at:
+    http://www.ams.sunysb.edu/~pfkuan/softwares.html#predictsgrna
+    Good R code, easy to run
+  - CrisprPred http://journals.plos.org/plosone/article?id=10.1371/journal.pone.0181943
+    code at: https://github.com/khaled-rahman/CRISPRpred
+    Weird R code, nothing easy to calculate the score, looks like CS people
+    No updates ever
+  - CCTop crisprRater https://academic.oup.com/nar/article/46/3/1375/4754467
+
+  off-targets:
+  - OfftargetPredict https://academic.oup.com/bioinformatics/article/34/17/i757/5093213
+    code at https://github.com/penn-hui/OfftargetPredict
+  - crisproff, unpublished but on github
+    
+
+  induced deletions:
+   - see JP email, CSHL 2018
+
+---
+
+
+auto-downloader:
+- download genome to "genome"
+- download gff to "gff"
+- check if filetype is gz, extract
+- check if type is really fasta
+- check if annot is really gff
+- check if sequences do not contain spaces
+- try to pick out a certain field from the fasta ID lines, is possible
+- translate genome to 2bit
+- create chrom.sizes
+- check if gff-chroms match genome chromes
+- if not: skip gff
+- do the gff translation, if error: skip gff
+- index the fasta
+- keep a log of everything
+- on success, reindex genomes and send out the log to email
+- use rabbitmq
+- split on " ", or ";"
+
+- feature UCSC more prominently:
+  - output page must activate the track in the link to UCSC!
+  - show link maybe even before the job is submitted
+
+- "enter gene name" -> redirect to UCSC 
+- show all guides for all PAMs together
+  - multi-PAM: "need alternative PAM" ? show them in grey
+- score CrisprA/CrisprI
+- design a library for a list of genes
+  - library design: input: list of genes, how many guides per gene, annotate with libraries?
+  - output as excel: geneSym, guideSeq, transcripts, % in CDS, scores, guideSeq
+  - also on guide overview page: show which ones are in gecko/brunello etc
+  - more precalc of guides / whole genome -> library design
+- knock-in support -> concentrate onto GFP-fusions
+  - knock-in support
+  - what are the typical use cases: promoter/enhancer/knock-in/knock-out (=exon-removal)
+- add-genome tool
+
+- base de donnes:
+-- text mining?
+-- guides valides des cribles: ajouter si le guide etait deja utilise
+(Sanger? Base de NIH zebrafish?)
+   fournir dans les tracks UCSC les guides des gènes essentiels  déjà testés dans les cribles et renvoyer un lien 
+   à GenomeCRISPR  de Heidelberg pour plus détails ?
+
+Analyses:
+- variantes Cas9: kleinstiver VQR guideSeq <-> CFD ?
+   me semble vraiment important et original !
+   c’est par exemple possible de comparer et confirmer la supériorité de CFD
+   sur les MIT score pour ces variants.
+- Cpf1: guideSeq <-> CFD ?
+  pour Cpf1 il fait designer un score à la main, comme CCTOP par exemple .
+- screens:
+  - TKO http://tko.ccbr.utoronto.ca/
+  - https://elifesciences.org/articles/12677/figures
+  - Croatan guides:
+    http://www.cell.com/molecular-cell/abstract/S1097-2765(17)30464-1
+    already in ~/croatanGuides.txt
+    protocol in http://croatan.hannonlab.org/files/Supplementary_Protocol.pdf
+
+
+
+- how many published guides may be affected by variants in off-targets?
+
+  pas évident, ça doit être facile d’identifier tous les variants qui diminuent
+  l’activité de off^targets (en passant de n mismatches à n+1) dans le sens
+  inverse, c’est plus compliqué de trouver les variants qui augmentent
+  l’activité de offtargets (en passant de n mismatches à n-1) puisqu’il faut
+  faire les calculs pour avoir tous les off avec 5mm et voir ceux dont les
+  variant font passer à 4 mm.
+  
+Done:
+- cfp1 support
+- suppress all eff scores but Fusi and Moreno
+- remove Tefor menu from Pcr pages
+- use case: hammer a region (enhancer) with guides: saturating mutagenesis libraries
+- serial cloner support
+- activate repeat filtering for the primer design !
+  (find the option in primer3 to remove low-complexity sequences)
+
+
+To: Zachary Gilbert
+Awesome! That was really fast! I just tested it out with a region we used
+before and it gave us the same guides that worked well for us when we tested
+them in mosquitoes. When I started looking for guides, about a year ago, I used
+Chop-Chop and Crispr.MIT.edu. More recently, I have been using Benchling
+because the interface was a little simpler, but none of them are updating
+genomes right now, and the Aedes genome 5 is much more representative of the
+actual genome than version 3, which is  important to us, since we have had a
+few occasions where we were trying guides in regions with a lot of SNPs, so not
+many of them worked well. We also tried a few downloadable tools, although I
+never got very far with them, since I ran into some weird permissions and
+compatibility problems on our server.
+
+For my needs, I prefer being able to enter a sequence and have the tool give me
+guides in that sequence to choose from, the way it does now, since we often
+want to, for example, find a guide very close to the stop codon, so we can
+label a gene while, mostly, maintaining its function. Some of my lab mates,
+though, would want to be able to enter a gene name and have it spit out a list
+of good guides in the first and second exon of a gene, for creating knockouts.
+Thanks again, this will be super helpful for finding guides for our next few
+projects
+Zach
+
+Done:
+
+Show distance of off-targets from the on-target! 
